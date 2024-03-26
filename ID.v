@@ -6,8 +6,9 @@ module ID(
  output reg [31:0] Rdata2,
  output reg [31:0] Ed32
 );
+`include "common_param.vh"//
 
-reg [31:0] REGFILE [31:0];//レジスタファイル32x32 レジスタのアドレスは0~31まで
+reg [31:0] REGFILE [31:0];//レジスタファイル32bit x 32 レジスタのアドレスは0~31まで
 
 wire [5:0] op;
 wire [4:0] rs;
@@ -44,19 +45,19 @@ always @(Ins or RST) begin
         case(op)
             R_FORM: begin
                 case(funct) //synopsys full_case
-	                ADD: begin
+	                ADD: begin//符号付き加算
 	                Rdata1 <= REGFILE[rs];
 	                Rdata2 <= REGFILE[rt];
 	                Ed32 <= 32'd0;
 	                end
 
-                    ADDU: begin
+                    ADDU: begin//符号なし加算
                     Rdata1 <= REGFILE[rs];
                     Rdata2 <= REGFILE[rt];
                     Ed32 <= 32'd0;
                     end
 
-                    SUB: begin
+                    SUB: begin//
                     Rdata1 <= REGFILE[rs];
                     Rdata2 <= REGFILE[rt];
                     Ed32 <= 32'd2;
@@ -68,67 +69,55 @@ always @(Ins or RST) begin
                     Ed32 <= 32'd0;
                     end
 
-                    AND: begin
+                    AND: begin//論理積
                     Rdata1 <= REGFILE[rs];
                     Rdata2 <= REGFILE[rt];
                     Ed32 <= 32'd0;
                     end
 
-                    OR: begin
+                    OR: begin//論理和
                     Rdata1 <= REGFILE[rs];
                     Rdata2 <= REGFILE[rt];
                     Ed32 <= 32'd0;
                     end
 
-                    XOR: begin
+                    XOR: begin//排他的論理和
                     Rdata1 <= REGFILE[rs];
                     Rdata2 <= REGFILE[rt];
                     Ed32 <= 32'd0;
                     end
 
-                    NOR: begin
+                    NOR: begin//論理和否定
                     Rdata1 <= REGFILE[rs];
                     Rdata2 <= REGFILE[rt];
                     Ed32 <= 32'd0;
                     end
 
-                    SLT: begin
+                    SLT: begin//符号付き比較
                     Rdata1 <= REGFILE[rs];
                     Rdata2 <= REGFILE[rt];
                     Ed32 <= 32'd0;
                     end
 
-                    SLTU: begin
+                    SLTU: begin//符号なし比較
                     Rdata1 <= REGFILE[rs];
                     Rdata2 <= REGFILE[rt];
                     Ed32 <= 32'd0;
                     end
 
-                    SLT: begin
-                    Rdata1 <= REGFILE[rs];
-                    Rdata2 <= REGFILE[rt];
-                    Ed32 <= 32'd0;
-                    end
-
-                    SLTU: begin
-                    Rdata1 <= REGFILE[rs];
-                    Rdata2 <= REGFILE[rt];
-                    Ed32 <= 32'd0;
-                    end
-
-                    SLL: begin
+                    SLL: begin//論理左シフト
                     Rdata1 <= REGFILE[rs];
                     Rdata2 <= shamt;
                     Ed32 <= 32'd0;
                     end
 
-                    SRL: begin
+                    SRL: begin//論理右シフト
                     Rdata1 <= REGFILE[rs];
                     Rdata2 <= shamt;
                     Ed32 <= 32'd0;
                     end
 
-                    SRA: begin
+                    SRA: begin//算術右シフト
                     Rdata1 <= REGFILE[rs];
                     Rdata2 <= shamt;
                     Ed32 <= 32'd0;
@@ -220,14 +209,125 @@ always @(Ins or RST) begin
                 endcase
                 end//R形式ここまででおしまい
 
+//------------I形式スタート--------------
             ADDI: begin
+                Rdata1 <= REGFILE[rs];
+                Rdata2 <= 32'd0;
+                if(Ins[15] == 1'd0) 
+                    Ed32 <= {16'd0,offset_immd};//{}はビット結合演算子　符号拡張をしているので
+                else if (Ins[15] == 1'd1)
+                    Ed32 <= {16'b1111111111111111,offset_immd};
+            end
+
+            ADDIU: begin
+                Rdata1 <= REGFILE[rs];
+                Rdata2 <= 32'd0;
+                Ed32 <= {16'd0,offset_immd};
+            end
+
+            SLTI: begin
                 Rdata1 <= REGFILE[rs];
                 Rdata2 <= 32'd0;
                 if(Ins[15] == 1'd0) 
                     Ed32 <= {16'd0,offset_immd};
                 else if (Ins[15] == 1'd1)
                     Ed32 <= {16'b1111111111111111,offset_immd};
-                end
+            end
+
+            SLTIU: begin
+                Rdata1 <= REGFILE[rs];
+                Rdata2 <= 32'd0;
+                Ed32 <= {16'd0,offset_immd};
+            end
+
+            ANDI: begin
+                Rdata1 <= REGFILE[rs];
+                Rdata2 <= 32'd0;
+                if(Ins[15] == 1'd0) 
+                    Ed32 <= {16'd0,offset_immd};
+                else if (Ins[15] == 1'd1)
+                    Ed32 <= {16'b1111111111111111,offset_immd};
+            end
+
+            ORI: begin
+                Rdata1 <= REGFILE[rs];
+                Rdata2 <= 32'd0;
+                if(Ins[15] == 1'd0) 
+                    Ed32 <= {16'd0,offset_immd};
+                else if (Ins[15] == 1'd1)
+                    Ed32 <= {16'b1111111111111111,offset_immd};
+            end
+
+            XORI: begin
+                Rdata1 <= REGFILE[rs];
+                Rdata2 <= 32'd0;
+                if(Ins[15] == 1'd0) 
+                    Ed32 <= {16'd0,offset_immd};
+                else if (Ins[15] == 1'd1)
+                    d32 <= {16'b1111111111111111,offset_immd};
+            end
+
+            LW: begin
+                Rdata1 <= REGFILE[rs];
+                Rdata2 <= 32'd0;
+                Ed32 <= {16'd0,offset_immd};
+            end
+
+            SW: begin
+                Rdata1 <= REGFILE[rs];
+                Rdata2 <= 32'd0;
+                Ed32 <= {16'd0,offset_immd};
+            end
+
+            BLTZ: begin
+                Rdata1 <= REGFILE[rs];
+                Rdata2 <= 32'd0;
+                Ed32 <= 32'd0;
+            end
+
+            BGEZ: begin
+                Rdata1 <= REGFILE[rs];
+                Rdata2 <= 32'd0;
+                Ed32 <= 32'd0;
+            end
+
+            BLEZ: begin
+                Rdata1 <= REGFILE[rs];
+                Rdata2 <= 32'd0;
+                Ed32 <= 32'd0;
+            end
+
+            BGTZ: begin
+                Rdata1 <= REGFILE[rs];
+                Rdata2 <= 32'd0;
+                Ed32 <= 32'd0;
+            end
+
+            BEQ: begin
+                Rdata1 <= REGFILE[rs];
+                Rdata2 <= REGFILE[rt];
+                Ed32 <= 32'd0;
+            end
+
+            BNE: begin
+                Rdata1 <= REGFILE[rs];
+                Rdata2 <= REGFILE[rt];
+                Ed32 <= 32'd0;
+            end//I形式ここまで
+            
+//---------J形式スタート-----
+            J: begin
+                Rdata1 <= 32'd0;
+                Rdata2 <= 32'd0;
+                Ed32 <= 32'd0;
+            end
+	
+            JAL: begin
+                Rdata1 <= 32'd0;
+                Rdata2 <= 32'd0;
+                Ed32 <= 32'd0;
+            end            
+
         endcase
     end 
 end
