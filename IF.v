@@ -7,7 +7,7 @@ module IF (
  output reg [31:0] nextPC
 );
 
-
+`include "common_param.vh"
 reg [31:0] IMEM [0:IMEM_SIZE-1];//命令メモリ
 
 initial begin

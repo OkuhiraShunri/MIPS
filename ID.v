@@ -5,6 +5,7 @@ module ID(
  output reg [31:0] Rdata1,
  output reg [31:0] Rdata2,
  output reg [31:0] Ed32
+ output reg [25:0] jadr;
 );
 `include "common_param.vh"//
 
@@ -35,6 +36,7 @@ initial begin
     end
 end
 
+//レジスタの読み込み
 always @(Ins or RST) begin
     if(RST == 1'b0) begin
 	    Rdata1 <= 32'b0;
@@ -320,16 +322,41 @@ always @(Ins or RST) begin
                 Rdata1 <= 32'd0;
                 Rdata2 <= 32'd0;
                 Ed32 <= 32'd0;
+                jadr <= Ins[25:0];
             end
 	
             JAL: begin
                 Rdata1 <= 32'd0;
                 Rdata2 <= 32'd0;
                 Ed32 <= 32'd0;
+                jadr <= Ins[25:0];
+
             end            
 
         endcase
     end 
 end
+
+//レジスタへの書き込み
+always @(negedge CLK) begin
+  case(op) //synopsys full_case
+    R_FORM : REGFILE[rd] <= Wdata;
+    ADDI   : REGFILE[rt] <= Wdata;
+    ADDIU  : REGFILE[rt] <= Wdata;
+    ANDI   : REGFILE[rt] <= Wdata;
+    ORI    : REGFILE[rt] <= Wdata;
+    XORI   : REGFILE[rt] <= Wdata;
+    SLTI   : REGFILE[rt] <= Wdata;
+    SLTIU  : REGFILE[rt] <= Wdata;
+    LW     : REGFILE[rt] <= Wdata;
+    SW     : REGFILE[rt] <= Wdata;
+    JAL    : REGFILE[ra] <= Wdata;
+    default: begin
+    REGFILE[rd] <= REGFILE[rd];
+    REGFILE[rt] <= REGFILE[rt];
+    REGFILE[ra] <= REGFILE[ra];
+	 end
+  endcase
+ end
 
 endmodule
