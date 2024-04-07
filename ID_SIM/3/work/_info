@@ -1,0 +1,101 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/OkuhiraShunri/verilog/mips/ID_SIM/2
+vEX
+!s110 1712479329
+!i10b 1
+!s100 JZ]?Ejk`954cZXKPJNfRD3
+InKQk^CEfFKA;oO[GizCzG2
+Z0 VDg1SIo80bB@j0V0VzS_@n1
+Z1 dC:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3
+w1712479235
+8C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3/EX.v
+FC:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3/EX.v
+Z2 Fcommon_param.vh
+L0 1
+Z3 OV;L;10.5b;63
+r1
+!s85 0
+31
+!s108 1712479329.000000
+!s107 common_param.vh|C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3/EX.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3/EX.v|
+!i113 1
+Z4 o-work work
+Z5 tCvgOpt 0
+n@e@x
+vID
+Z6 !s110 1712479330
+!i10b 1
+!s100 MVHgP?6RTO1PDTT_68VHd0
+I6Bi4D_hRL6m4l6M2Pc<4O2
+R0
+R1
+w1712477914
+8C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3/ID.v
+FC:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3/ID.v
+R2
+L0 1
+R3
+r1
+!s85 0
+31
+Z7 !s108 1712479330.000000
+!s107 common_param.vh|C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3/ID.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3/ID.v|
+!i113 1
+R4
+R5
+n@i@d
+vJOIN
+R6
+!i10b 1
+!s100 >J:X_jOe<h>Hj:@18ViEj0
+I27S:0dZ17IWb5<i4V]2RY2
+R0
+R1
+w1712477731
+8C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3/JOIN.v
+FC:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3/JOIN.v
+L0 1
+R3
+r1
+!s85 0
+31
+R7
+!s107 C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3/JOIN.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3/JOIN.v|
+!i113 1
+R4
+R5
+n@j@o@i@n
+vJOIN_SIM
+R6
+!i10b 1
+!s100 ciDb]:URjV_KkA8>ocPFm0
+ILhYjkBhCkMA`hDz2<z@=C0
+R0
+R1
+w1712479313
+8C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3/JOIN_SIM.v
+FC:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3/JOIN_SIM.v
+R2
+L0 3
+R3
+r1
+!s85 0
+31
+R7
+!s107 common_param.vh|C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3/JOIN_SIM.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/3/JOIN_SIM.v|
+!i113 1
+R4
+R5
+n@j@o@i@n_@s@i@m

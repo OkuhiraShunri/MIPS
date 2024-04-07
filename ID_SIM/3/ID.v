@@ -1,7 +1,7 @@
 module ID (
     input  CLK, RST,
     input  [31:0] Ins, Wdata,
-    output [31:0] Rdata1, Rdata2, Ed32
+    output [31:0] Rdata1, Rdata2, Ed32, TEST
 );
 `include "common_param.vh"
 // レジスタファイル Read
@@ -10,8 +10,8 @@ reg [31:0] REG_FILE [31:0];
 integer i;
 initial begin
     REG_FILE[0] = {32{1'b0}};
-    REG_FILE[10] = 32'd86;//t2
-    REG_FILE[11] = 32'd26;//t3
+    REG_FILE[10] = 32'd86332;//t2
+    REG_FILE[11] = 32'd26221;//t3
     REG_FILE[9] = 32'd17;//t0
     REG_FILE[23] = 32'd23;//s7
     // for (i = 1; i < 32; i = i + 1) begin
@@ -83,5 +83,6 @@ endfunction
 assign Ed32 = SE_UE(op, offset_immd, Ins);
 assign Rdata1 = REG_FILE[rs];
 assign Rdata2 = REG_FILE[rt];
+assign TEST = REG_FILE[rd];//レジスタファイルに書き込まれているかを見るだけのテスト出力
 
 endmodule

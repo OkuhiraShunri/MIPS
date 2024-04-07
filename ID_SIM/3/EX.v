@@ -8,6 +8,7 @@ wire [5:0] op;
 wire [4:0] shamt;
 wire [5:0] funct;
 
+
 assign op = Ins[31:26];
 assign shamt = Ins[10:6];
 assign funct = Ins[5:0];
@@ -27,7 +28,8 @@ function [31:0] MUX2;
     end
 endfunction
 
-
+reg[31:0] hi, lo;
+reg[63:0] re_64;
 
 //演算部分
 always @(posedge CLK) begin
@@ -36,11 +38,58 @@ always @(posedge CLK) begin
         case(op)
             R_FORM:begin
                 case(funct)
-                    ADD:Result <= MUX2(Ed32, Rdata2, op) + Rdata1;
-                    SUB:Result <= MUX2(Ed32, Rdata2, op) - Rdata1;
+                    ADD: Result <= MUX2(Ed32, Rdata2, op) + Rdata1;
+
+                    SUB: Result <= MUX2(Ed32, Rdata2, op) - Rdata1;
+
+                    MULT:begin
+                        re_64 <= MUX2(Ed32, Rdata2, op) * Rdata1;
+                        hi <= re_64[63:32];
+                        lo <= re_64[31:0];
+                    end
+
+                    DIV:begin
+                        hi <= MUX2(Ed32, Rdata2, op) % Rdata1;
+                        lo <= MUX2(Ed32, Rdata2, op) / Rdata1;
+                    end 
+
+                    AND: Result <= MUX2(Ed32, Rdata2, op) & Rdata1;
+
+                    OR: Result <= MUX2(Ed32, Rdata2, op) | Rdata1;
+
+                    NOR: Result <= !(MUX2(Ed32, Rdata2, op) | Rdata1);
+
+                    XOR: Result <= MUX2(Ed32, Rdata2, op) ^ Rdata1;
+
+                    SLL: Result <= Rdata1 << shamt;
+
+                    SRL: Result <= Rdata1 >> shamt;
+                    
                 endcase
             end
-            ADDI:Result <= MUX2(Ed32, Rdata2, op) + Rdata1;
+
+            ADDI: Result <= MUX2(Ed32, Rdata2, op) + Rdata1;
+
+            ADDIU: Result <= MUX2(Ed32, Rdata2, op) + Rdata1;
+
+            SLTI:begin
+                if(MUX2(Ed32, Rdata2, op) > Rdata1)begin
+                    Result <= 1;
+                end
+                else begin
+                    Result <= 0;
+                end
+            end
+
+            SLTIU:begin
+                if(MUX2(Ed32, Rdata2, op) > Rdata1)begin
+                    Result <= 1;
+                end
+                else begin
+                    Result <= 0;
+                end
+            end
+
 
         endcase
     end
