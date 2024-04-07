@@ -10,10 +10,10 @@ reg [31:0] REG_FILE [31:0];
 integer i;
 initial begin
     REG_FILE[0] = {32{1'b0}};
-    REG_FILE[10] = 32'd86;  //t2 = 86
-    REG_FILE[11] = 32'd26;  //t3 = 26
-    REG_FILE[9] = 32'd17;   //t1 = 17
-    REG_FILE[23] = 32'd23;  //s7 = 23
+    REG_FILE[10] = 32'd86;//t2
+    REG_FILE[11] = 32'd26;//t3
+    REG_FILE[9] = 32'd17;//t0
+    REG_FILE[23] = 32'd23;//s7
     // for (i = 1; i < 32; i = i + 1) begin
     //     REG_FILE[i] <= 0;
     // end

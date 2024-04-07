@@ -32,7 +32,17 @@ endfunction
 //演算部分
 always @(posedge CLK) begin
     if(Rdata1 != 0 && MUX2(Ed32, Rdata2, op) != 0)begin
-        Result <= MUX2(Ed32, Rdata2, op) + Rdata1;
+        //Result <= MUX2(Ed32, Rdata2, op) + Rdata1;
+        case(op)
+            R_FORM:begin
+                case(funct)
+                    ADD:Result <= MUX2(Ed32, Rdata2, op) + Rdata1;
+                    SUB:Result <= MUX2(Ed32, Rdata2, op) - Rdata1;
+                endcase
+            end
+            ADDI:Result <= MUX2(Ed32, Rdata2, op) + Rdata1;
+
+        endcase
     end
     else begin
         Result <= 32'b0;
