@@ -4,14 +4,15 @@ module JOIN_SIM();
 `include "common_param.vh"
 reg clk, rst;
 reg [31:0] ins;
-wire [31:0] test;
+wire [31:0] test, sw_test;
 //wire [31:0] rdata1, rdata2, ed32;
 
 JOIN j0(
     .CLK(clk),
     .RST(rst),
     .Ins(ins),
-    .TEST(test)
+    .TEST(test),
+    .SW_TEST(sw_test)
 );
 
 
@@ -29,14 +30,19 @@ initial begin
     // ins[20:16] = 5'd11;//t3
     // ins[15:11] = 5'd9;//t1
     // ins[10:6] = 5'd0;
-    // ins[5:0] = AND;//func
+    // ins[5:0] = ADD;//func
 
-    ins[31:26] = R_FORM;//op
-    ins[25:21] = 5'd10;//t2
-    ins[20:16] = 5'd11;//t3
-    ins[15:11] = 5'd9;//t1
-    ins[10:6] = 5'd5;
-    ins[5:0] = SLT;//func
+    // ins[31:26] = R_FORM;//op
+    // ins[25:21] = 5'd10;//t2
+    // ins[20:16] = 5'd11;//t3
+    // ins[15:11] = 5'd9;//t1
+    // ins[10:6] = 5'd5;
+    // ins[5:0] = SLT;//func
+
+    ins[31:26] = SW;//op
+    ins[25:21] = 5'd10;// rs t2
+    ins[20:16] = 5'd11;// rt t3
+    ins[15:0] = 16'd4;//immd
 end
 
 

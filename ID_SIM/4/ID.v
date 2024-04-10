@@ -10,8 +10,8 @@ reg [31:0] REG_FILE [31:0];
 integer i;
 initial begin
     REG_FILE[0] = {32{1'b0}};
-    REG_FILE[10] = 32'd86332;//t2
-    REG_FILE[11] = 32'd2147483648;//t3
+    REG_FILE[10] = 32'd8;//t2
+    REG_FILE[11] = 32'd21;//t3
     REG_FILE[9] = 32'd17;//t0
     REG_FILE[23] = 32'd23;//s7
     // for (i = 1; i < 32; i = i + 1) begin
@@ -58,9 +58,12 @@ endfunction
 always @(posedge CLK or posedge RST) begin
     if (RST) begin
         REG_FILE[MUX1(op, rt, rd)] <= 32'b0;    
+    end
+    else if(op == SW)begin
+        REG_FILE[MUX1(op, rt, rd)] <= REG_FILE[MUX1(op, rt, rd)];//なにもしない
     end 
     else begin
-        REG_FILE[MUX1(op, rt, rd)] <= Wdata;
+        REG_FILE[MUX1(op, rt, rd)] <= Wdata;//レジスタファイルに書き込む
     end
 end
 
