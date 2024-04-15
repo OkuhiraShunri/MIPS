@@ -1,0 +1,56 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/OkuhiraShunri/verilog/mips/ID_SIM/6
+vIF
+!s110 1713160229
+!i10b 1
+!s100 MX2nPd9>dGEfB[?DbL_@f0
+IjnkUSd33gC?9Dd=LeFXbo1
+Z0 VDg1SIo80bB@j0V0VzS_@n1
+Z1 dC:/Users/OkuhiraShunri/verilog/mips/IF_SIM
+w1713160213
+8C:/Users/OkuhiraShunri/verilog/mips/IF_SIM/IF.v
+FC:/Users/OkuhiraShunri/verilog/mips/IF_SIM/IF.v
+Z2 Fcommon_param.vh
+L0 1
+Z3 OV;L;10.5b;63
+r1
+!s85 0
+31
+!s108 1713160229.000000
+!s107 common_param.vh|C:/Users/OkuhiraShunri/verilog/mips/IF_SIM/IF.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/OkuhiraShunri/verilog/mips/IF_SIM/IF.v|
+!i113 1
+Z4 o-work work
+Z5 tCvgOpt 0
+n@i@f
+vIF_SIM
+!s110 1713160230
+!i10b 1
+!s100 AK`lMCUC2Uf_IUS5[5P401
+Ij=MFlDb^8YJKkkh0:SCYa1
+R0
+R1
+w1713159916
+8C:/Users/OkuhiraShunri/verilog/mips/IF_SIM/IF_SIM.v
+FC:/Users/OkuhiraShunri/verilog/mips/IF_SIM/IF_SIM.v
+R2
+L0 3
+R3
+r1
+!s85 0
+31
+!s108 1713160230.000000
+!s107 common_param.vh|C:/Users/OkuhiraShunri/verilog/mips/IF_SIM/IF_SIM.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/OkuhiraShunri/verilog/mips/IF_SIM/IF_SIM.v|
+!i113 1
+R4
+R5
+n@i@f_@s@i@m

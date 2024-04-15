@@ -166,9 +166,13 @@ function [31:0] Address;//プログラムカウンタにわたすアドレス計
         //Address = {nextPC[31:28], 28'b0}; 
     end
     else begin
-        Address = Address;
+        Address = 0;
     end
 endfunction
+
+// initial begin
+//     newPC = 0;
+// end
 
 assign Result = ALU(Rdata1, Rdata2, Ed32, op, funct, shamt);
 assign newPC = Address(nextPC, jadr, Ed32, op, funct);
