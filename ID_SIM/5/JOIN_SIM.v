@@ -28,12 +28,12 @@ initial begin
     rst = 0;
     nextpc = 32'd3758096384;
     //wdata = 32'd0;8
-    // ins[31:26] = R_FORM;//op
-    // ins[25:21] = 5'd10;//t2
-    // ins[20:16] = 5'd11;//t3
-    // ins[15:11] = 5'd9;//t1
-    // ins[10:6] = 5'd0;
-    // ins[5:0] = ADD;//func
+    ins[31:26] = R_FORM;//op
+    ins[25:21] = 5'd10;//t2
+    ins[20:16] = 5'd11;//t3
+    ins[15:11] = 5'd9;//t1
+    ins[10:6] = 5'd0;
+    ins[5:0] = ADD;//func
 
     // ins[31:26] = R_FORM;//op
     // ins[25:21] = 5'd10;//t2
@@ -52,8 +52,8 @@ initial begin
     // ins[20:16] = 5'd11;// rt t3
     // ins[15:0] = 16'd7;//immd
 
-    ins[31:26] = J;     //op
-    ins[25:0] = 26'd58; //address
+    // ins[31:26] = J;     //op
+    // ins[25:0] = 26'd58; //address
 end
 
 

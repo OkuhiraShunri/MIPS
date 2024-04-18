@@ -12,7 +12,7 @@ initial begin
     REG_FILE[0] = {32{1'b0}};
     REG_FILE[10] = 32'd8;//t2
     REG_FILE[11] = 32'd9;//t3
-    REG_FILE[9] = 32'd17;//t0
+    REG_FILE[9] = 32'd10;//t0
     REG_FILE[23] = 32'd23;//s7
     // for (i = 1; i < 32; i = i + 1) begin
     //     REG_FILE[i] <= 0;

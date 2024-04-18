@@ -3,7 +3,7 @@ module DM(
     input [31:0] Result,
     input [31:0] Rdata2,
     input [31:0] Ins,nextPC,
-    output reg [31:0] Wdata,
+    output [31:0] Wdata,
     output [31:0] SW_TEST
 );
 
@@ -43,11 +43,12 @@ always @(posedge CLK) begin
         DMEM[Result] <= Rdata2;//メモリに書き込み
         //SW_TEST = DMEM[Result];
     end
-    else begin
-        Wdata <= MUX3(Result, nextPC, op);//
-    end
+    // else begin
+    //     Wdata <= MUX3(Result, nextPC, op);//
+    // end
 end
 
+assign Wdata = MUX3(Result, nextPC, op);
 assign SW_TEST = DMEM[Result];
 
 

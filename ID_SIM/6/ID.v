@@ -10,11 +10,14 @@ reg [31:0] REG_FILE [31:0];
 integer i;
 initial begin
     REG_FILE[0] = {32{1'b0}};
-    REG_FILE[10] = 32'd8;//t2
+    REG_FILE[10] = 32'd5;//t2
     REG_FILE[11] = 32'd9;//t3
-    REG_FILE[9] = 32'd17;//t1
+    //REG_FILE[9] = 32'd45;//t1
+    REG_FILE[16] = 32'd13;//s0
     REG_FILE[17] = 32'd13;//s1
-    REG_FILE[18] = 32'd56;//s2
+    REG_FILE[18] = 32'd13;//s2
+    REG_FILE[19] = 32'd5;
+    REG_FILE[20] = 32'd5;
     REG_FILE[23] = 32'd23;//s7
     // for (i = 1; i < 32; i = i + 1) begin
     //     REG_FILE[i] <= 0;
@@ -78,6 +81,7 @@ function [31:0] SE_UE;
     input [15:0] offset_immd;
     input [31:0] Ins;
     
+
     if (op == (ANDI || ORI || XORI)) begin
         SE_UE = {{16{1'b0}}, offset_immd};
     end 
@@ -90,6 +94,6 @@ endfunction
 assign Ed32 = SE_UE(op, offset_immd, Ins);
 assign Rdata1 = REG_FILE[rs];
 assign Rdata2 = REG_FILE[rt];
-assign TEST = REG_FILE[rd];//レジスタファイルに書き込まれているかを見るだけのテスト出力
+assign TEST = REG_FILE[rt];//レジスタファイルに書き込まれているかを見るだけのテスト出力
 
 endmodule

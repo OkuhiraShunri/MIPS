@@ -4,6 +4,10 @@ module EX (
     output [31:0] Result,
     output [31:0] newPC
 );
+
+// initial begin
+//     nextPC <= 0;
+// end
 `include "common_param.vh"
 wire [5:0] op;
 wire [4:0] shamt;
@@ -17,6 +21,20 @@ assign jadr = Ins[25:0];
 
 reg[31:0] hi, lo;
 reg[63:0] re_64;
+
+always @(posedge CLK) begin
+
+    re_64 = Rdata1 * Rdata2;
+
+    if(funct == MULT)begin
+        lo = re_64[63:32]; //32bit
+        hi = re_64[63:32]; //32bit
+    end
+    else if(funct == DIV)begin
+        hi = Rdata2 % Rdata1;
+        lo = Rdata2 / Rdata1;
+    end
+end
 
 function [31:0] ALU;
     input[31:0]Rdata1;
@@ -33,16 +51,9 @@ function [31:0] ALU;
 
                 SUB: ALU = Rdata1 - Rdata2;
 
-                // MULT:begin
-                //     re_64 <= Rdata2 * Rdata1;//64bit
-                //     hi <= re_64[63:32]; //32bit
-                //     lo <= re_64[31:0];  //32bit
-                // end
+                MULT: ALU = ALU;
 
-                // DIV:begin
-                //     hi <= Rdata2 % Rdata1;
-                //     lo <= Rdata2 / Rdata1;
-                // end 
+                DIV: ALU = ALU;
 
                 AND: ALU = Rdata1 & Rdata2;
 
@@ -145,7 +156,7 @@ function [31:0] Address;//プログラムカウンタにわたすアドレス計
     input[5:0]op;
     input[5:0]funct;
 
-    if(op == R_FORM)begin
+    if(op == R_FORM)begin//R形式すべて
         if(funct == JR || funct == JALR)begin
             Address = ALU(Rdata1, Rdata2, Ed32, op, funct, shamt);//Rdata1が選択される
         end
@@ -153,7 +164,7 @@ function [31:0] Address;//プログラムカウンタにわたすアドレス計
             Address = nextPC; 
         end
     end
-    else if(op == BEQ || op == BNE)begin
+    else if(op == BEQ || op == BNE)begin//条件分岐
         if(ALU(Rdata1, Rdata2, Ed32, op, funct, shamt) == 1)begin
             Address = nextPC + (Ed32 << 2);
         end
@@ -161,12 +172,15 @@ function [31:0] Address;//プログラムカウンタにわたすアドレス計
             Address = nextPC;
         end    
     end
-    else if(op == J || op == JAL)begin
+    else if(op == J || op == JAL)begin//ジャンプ・関数呼び出し
         Address = {nextPC[31:28] , jadr << 2};//PC[31-28]と4*addressの連接
         //Address = {nextPC[31:28], 28'b0}; 
     end
+    else if(op == ADDI || op == LW || op == SW)begin
+        Address = nextPC;
+    end
     else begin
-        Address = 0;
+        Address = 0;//初期値のつもり
     end
 endfunction
 
