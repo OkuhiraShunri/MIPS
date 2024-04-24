@@ -1,9 +1,9 @@
-C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/5/ID.v {1 {vlog -work work -stats=none C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/5/ID.v
+C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/5/EX.v {1 {vlog -work work -stats=none C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/5/EX.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module ID
+-- Compiling module EX
 
 Top level modules:
-	ID
+	EX
 
 } {} {}} C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/5/DM.v {1 {vlog -work work -stats=none C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/5/DM.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
@@ -12,19 +12,12 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 Top level modules:
 	DM
 
-} {} {}} C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/5/EX.v {1 {vlog -work work -stats=none C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/5/EX.v
+} {} {}} C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/5/ID.v {1 {vlog -work work -stats=none C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/5/ID.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module EX
+-- Compiling module ID
 
 Top level modules:
-	EX
-
-} {} {}} C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/5/JOIN_SIM.v {1 {vlog -work work -stats=none C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/5/JOIN_SIM.v
-Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module JOIN_SIM
-
-Top level modules:
-	JOIN_SIM
+	ID
 
 } {} {}} C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/5/JOIN.v {1 {vlog -work work -stats=none C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/5/JOIN.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
@@ -32,5 +25,12 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 
 Top level modules:
 	JOIN
+
+} {} {}} C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/5/JOIN_SIM.v {1 {vlog -work work -stats=none C:/Users/OkuhiraShunri/verilog/mips/ID_SIM/5/JOIN_SIM.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module JOIN_SIM
+
+Top level modules:
+	JOIN_SIM
 
 } {} {}}

@@ -21,13 +21,15 @@ assign jadr = Ins[25:0];
 
 reg[31:0] hi, lo;
 reg[63:0] re_64;
-
+initial begin
+    hi <= 0;
+    lo <= 0;
+    re_64 <= 0;
+end
 always @(posedge CLK) begin
-
-    re_64 = Rdata1 * Rdata2;
-
     if(funct == MULT)begin
-        lo = re_64[63:32]; //32bit
+        re_64 = Rdata1 * Rdata2;
+        lo = re_64[31:0]; //32bit
         hi = re_64[63:32]; //32bit
     end
     else if(funct == DIV)begin
@@ -35,6 +37,8 @@ always @(posedge CLK) begin
         lo = Rdata2 / Rdata1;
     end
 end
+
+
 
 function [31:0] ALU;
     input[31:0]Rdata1;
@@ -47,9 +51,13 @@ function [31:0] ALU;
     case(op)
         R_FORM:begin
             case(funct)
-                ADD: ALU = Rdata1 + Rdata2;
+                ADD: ALU = $signed(Rdata1) + $signed(Rdata2);
+
+                ADDU: ALU = $unsigned(Rdata1) + $unsigned(Rdata2);
 
                 SUB: ALU = Rdata1 - Rdata2;
+
+                SUBU: ALU = $unsigned(Rdata1) - $unsigned(Rdata2);
 
                 MULT: ALU = ALU;
 
@@ -72,6 +80,8 @@ function [31:0] ALU;
                 SRLV: ALU = Rdata2 >> Rdata1;
 
                 SRA: ALU = $signed(Rdata2) >>> shamt;
+
+                SRAV: ALU = $signed(Rdata2) >>> Rdata1;
 
                 SLT:begin
                     if(Rdata1 < Rdata2)begin
@@ -104,6 +114,12 @@ function [31:0] ALU;
         ADDI: ALU = Ed32 + Rdata1;
 
         ADDIU: ALU = Ed32 + Rdata1;
+
+        ANDI: ALU = Ed32 & Rdata1;
+
+        ORI: ALU = Ed32 | Rdata1;
+
+        XORI: ALU = Ed32 ^ Rdata1; 
 
         SLTI:begin
             if(Rdata1 < Ed32)begin

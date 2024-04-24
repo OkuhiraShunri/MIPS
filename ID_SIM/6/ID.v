@@ -1,7 +1,7 @@
 module ID (
     input  CLK, RST,
     input  [31:0] Ins, Wdata,
-    output [31:0] Rdata1, Rdata2, Ed32, TEST
+    output reg [31:0] Rdata1, Rdata2, Ed32, TEST
 );
 `include "common_param.vh"
 // レジスタファイル Read
@@ -9,16 +9,18 @@ reg [31:0] REG_FILE [31:0];
 
 integer i;
 initial begin
-    REG_FILE[0] = {32{1'b0}};
+    //REG_FILE[0] = {32{1'b0}};
+    REG_FILE[0] = 32'b0;
     REG_FILE[10] = 32'd5;//t2
-    REG_FILE[11] = 32'd9;//t3
+    REG_FILE[11] = -9;//t3
     //REG_FILE[9] = 32'd45;//t1
-    REG_FILE[16] = 32'd13;//s0
-    REG_FILE[17] = 32'd13;//s1
-    REG_FILE[18] = 32'd13;//s2
+    REG_FILE[16] = 32'd10;//s0
+    REG_FILE[17] = 32'd11;//s1
+    REG_FILE[18] = 32'd12;//s2
     REG_FILE[19] = 32'd5;
     REG_FILE[20] = 32'd5;
     REG_FILE[23] = 32'd23;//s7
+    REG_FILE[29] = 32'd10;//sp
     // for (i = 1; i < 32; i = i + 1) begin
     //     REG_FILE[i] <= 0;
     // end
@@ -51,7 +53,7 @@ function [4:0] MUX1;
     //input [5:0] funct;
     
     if (op == JAL) begin//関数呼び出し
-        MUX1 = {5{1'b1}};
+        MUX1 = {5{1'b1}};//ra
     end 
     else if (op == R_FORM) begin
         MUX1 = rd;
@@ -91,9 +93,18 @@ function [31:0] SE_UE;
 endfunction
 
 
-assign Ed32 = SE_UE(op, offset_immd, Ins);
-assign Rdata1 = REG_FILE[rs];
-assign Rdata2 = REG_FILE[rt];
-assign TEST = REG_FILE[rt];//レジスタファイルに書き込まれているかを見るだけのテスト出力
 
+// assign Ed32 = SE_UE(op, offset_immd, Ins);
+// assign Rdata1 = REG_FILE[rs];
+// assign Rdata2 = REG_FILE[rt];
+// assign TEST = REG_FILE[rt];//レジスタファイルに書き込まれているかを見るだけのテスト出力
+
+
+
+always @(Ins) begin
+   Ed32 <= SE_UE(op, offset_immd, Ins);
+   Rdata1 <= REG_FILE[rs];
+   Rdata2 <= REG_FILE[rt];
+   TEST <= REG_FILE[rt];//レジスタファイルに書き込まれているかを見るだけのテスト出力 
+end
 endmodule

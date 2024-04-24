@@ -38,11 +38,20 @@ function [31:0] MUX3;
     end
 endfunction
 
+// always @(posedge CLK) begin
+//     Wdata <= Result;
+// end
+
 always @(posedge CLK) begin
     if(op == SW)begin
         DMEM[Result] <= Rdata2;//メモリに書き込み
         //SW_TEST = DMEM[Result];
     end
+    // else begin
+    //     if(funct == MFHI)begin
+    //         DMEM[Rdata2] <= 
+    //     end
+    // end
     // else begin
     //     Wdata <= MUX3(Result, nextPC, op);//
     // end
