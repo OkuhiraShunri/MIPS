@@ -1,7 +1,7 @@
 module ID (
     input  CLK, RST,
     input  [31:0] Ins, Wdata,
-    output reg [31:0] Rdata1, Rdata2, Ed32, TEST
+    output  [31:0] Rdata1, Rdata2, Ed32, TEST
 );
 `include "common_param.vh"
 // レジスタファイル Read
@@ -15,12 +15,13 @@ initial begin
     REG_FILE[11] = -9;//t3
     //REG_FILE[9] = 32'd45;//t1
     REG_FILE[16] = 32'd10;//s0
-    REG_FILE[17] = 32'd11;//s1
+    REG_FILE[17] = 32'd2012;//s1
     REG_FILE[18] = 32'd12;//s2
     REG_FILE[19] = 32'd5;
     REG_FILE[20] = 32'd5;
     REG_FILE[23] = 32'd23;//s7
-    REG_FILE[29] = 32'd10;//sp
+    REG_FILE[29] = 32'd50;//sp
+    REG_FILE[31] = 32'd12;
     // for (i = 1; i < 32; i = i + 1) begin
     //     REG_FILE[i] <= 0;
     // end
@@ -59,7 +60,7 @@ function [4:0] MUX1;
         MUX1 = rd;
     end 
     else begin
-        MUX1 = rt;
+        MUX1 = rt;//addi
     end
 endfunction
 
@@ -71,6 +72,9 @@ always @(posedge CLK or posedge RST) begin
     else if(op == SW || op == BEQ)begin
         REG_FILE[MUX1(op, rt, rd)] <= REG_FILE[MUX1(op, rt, rd)];//なにもしない
     end 
+    else if(op == J)begin
+        REG_FILE[MUX1(op, rt, rd)] <= 0;//JUMP命令で、ゼロレジスタを読み書きしてしまうため、ゼロにもどす
+    end
     else begin
         REG_FILE[MUX1(op, rt, rd)] <= Wdata;//レジスタファイルに書き込む処理。 opがJALのときはMUX1がraになっていてかつWdataがnextPCになっている。JALRのときはMUX1がrdになっていてかつWdataはnextPCになっている
     end
@@ -92,19 +96,42 @@ function [31:0] SE_UE;
     end
 endfunction
 
+// reg [31:0] r_JR;
+// reg r_F = 0;
+// always @(negedge CLK) begin
+//     if(funct == JR)begin
+//         r_F <= 1;
+//         r_JR <= REG_FILE[rs];
+//     end
+//     else begin
+//         r_F <= 0;
+//     end
+// end
+
+// always @(negedge CLK) begin
+//     if(funct == JR)begin
+//         REG_FILE[rs] <= Rdata1;
+//     end
+    
+// end
+// function [31:0] RD;
+//     if(funct == JR)begin
+        
+//     end
+// endfunction
+assign Ed32 = SE_UE(op, offset_immd, Ins);
+//assign Rdata1 = (r_F == 1'b1) ? r_JR : REG_FILE[rs];
+//assign Rdata1 = RD();
+assign Rdata1 = REG_FILE[rs];
+assign Rdata2 = REG_FILE[rt];
+assign TEST = REG_FILE[rt];//レジスタファイルに書き込まれているかを見るだけのテスト出力
 
 
-// assign Ed32 = SE_UE(op, offset_immd, Ins);
-// assign Rdata1 = REG_FILE[rs];
-// assign Rdata2 = REG_FILE[rt];
-// assign TEST = REG_FILE[rt];//レジスタファイルに書き込まれているかを見るだけのテスト出力
 
-
-
-always @(Ins) begin
-   Ed32 <= SE_UE(op, offset_immd, Ins);
-   Rdata1 <= REG_FILE[rs];
-   Rdata2 <= REG_FILE[rt];
-   TEST <= REG_FILE[rt];//レジスタファイルに書き込まれているかを見るだけのテスト出力 
-end
+// always @(posedge CLK) begin
+//    Ed32 <= SE_UE(op, offset_immd, Ins);
+//    Rdata1 <= REG_FILE[rs];
+//    Rdata2 <= REG_FILE[rt];
+//    TEST <= REG_FILE[rt];//レジスタファイルに書き込まれているかを見るだけのテスト出力 
+// end
 endmodule

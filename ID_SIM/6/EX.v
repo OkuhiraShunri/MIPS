@@ -1,8 +1,9 @@
+`default_nettype none
 module EX (
-    input  CLK, RST,
-    input [31:0] Ins, Rdata1, Rdata2, Ed32, nextPC,
-    output [31:0] Result,
-    output [31:0] newPC
+    input wire CLK, RST,
+    input wire [31:0] Ins, Rdata1, Rdata2, Ed32, nextPC,
+    output wire [31:0] Result,
+    output wire [31:0] newPC
 );
 
 // initial begin
@@ -20,15 +21,16 @@ assign funct = Ins[5:0];
 assign jadr = Ins[25:0];
 
 reg[31:0] hi, lo;
-reg[63:0] re_64;
+
 initial begin
     hi <= 0;
     lo <= 0;
-    re_64 <= 0;
 end
+wire [63:0] re_64;
+assign re_64 = Rdata1 * Rdata2;
+
 always @(posedge CLK) begin
     if(funct == MULT)begin
-        re_64 = Rdata1 * Rdata2;
         lo = re_64[31:0]; //32bit
         hi = re_64[63:32]; //32bit
     end
@@ -165,16 +167,38 @@ function [31:0] ALU;
     endcase
 endfunction
 
-function [31:0] Address;//プログラムカウンタにわたすアドレス計算
+
+// reg [31:0] r_JR;
+// reg r_F = 0;
+// always @(posedge CLK) begin
+//     if(op == JR)begin
+//         r_JR <= Rdata1;
+//         r_F <= 1;
+//     end
+//     else begin
+//         r_F <= 0;
+//     end
+// end
+
+
+
+
+function [31:0] Address;//プログラムカウンタにわたすアドレス計さん
+    input[31:0]Rdata1;
+    input[31:0]Rdata2;
     input[31:0]nextPC;
     input[25:0]jadr;
     input[31:0]Ed32;
     input[5:0]op;
     input[5:0]funct;
+    input[4:0]shamt;
+
 
     if(op == R_FORM)begin//R形式すべて
         if(funct == JR || funct == JALR)begin
             Address = ALU(Rdata1, Rdata2, Ed32, op, funct, shamt);//Rdata1が選択される
+            //Address = r_JR;
+            //Address = Rdata1;
         end
         else begin
             Address = nextPC; 
@@ -192,7 +216,7 @@ function [31:0] Address;//プログラムカウンタにわたすアドレス計
         Address = {nextPC[31:28] , jadr << 2};//PC[31-28]と4*addressの連接
         //Address = {nextPC[31:28], 28'b0}; 
     end
-    else if(op == ADDI || op == LW || op == SW)begin
+    else if(op == ADDI || op == LW || op == SW || op == SLTI)begin
         Address = nextPC;
     end
     else begin
@@ -205,7 +229,8 @@ endfunction
 // end
 
 assign Result = ALU(Rdata1, Rdata2, Ed32, op, funct, shamt);
-assign newPC = Address(nextPC, jadr, Ed32, op, funct);
+assign newPC = Address(Rdata1, Rdata2, nextPC, jadr, Ed32, op, funct, shamt);
 
 
 endmodule
+`default_nettype wire

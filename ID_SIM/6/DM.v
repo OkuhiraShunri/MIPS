@@ -16,14 +16,13 @@ assign op = Ins[31:26];
 
 integer i;
 initial begin
-    for (i = 1; i < 32; i = i + 1) begin
+    for (i = 0; i < 32; i = i + 1) begin
         DMEM[i] <= 32'd777;
     end
 end
 
 function [31:0] MUX3;
     input [31:0] Result;
-    //input [31:0] Rdata;
     input [31:0] nextPC;
     input [5:0] op;
     
@@ -42,7 +41,7 @@ endfunction
 //     Wdata <= Result;
 // end
 
-always @(posedge CLK) begin
+always @(negedge CLK) begin
     if(op == SW)begin
         DMEM[Result] <= Rdata2;//メモリに書き込み
         //SW_TEST = DMEM[Result];
