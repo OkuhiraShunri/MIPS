@@ -14,7 +14,7 @@ initial begin
     REG_FILE[10] = 32'd5;//t2
     REG_FILE[11] = -9;//t3
     //REG_FILE[9] = 32'd45;//t1
-    REG_FILE[16] = 32'd10;//s0
+    REG_FILE[16] = 32'd3;//s0
     REG_FILE[17] = 32'd2012;//s1
     REG_FILE[18] = 32'd12;//s2
     REG_FILE[19] = 32'd5;
@@ -60,7 +60,7 @@ function [4:0] MUX1;
         MUX1 = rd;
     end 
     else begin
-        MUX1 = rt;//addi
+        MUX1 = rt;//addi, lw, sw
     end
 endfunction
 
@@ -69,8 +69,8 @@ always @(posedge CLK or posedge RST) begin
     if (RST) begin
         REG_FILE[MUX1(op, rt, rd)] <= 32'b0;    
     end
-    else if(op == SW || op == BEQ)begin
-        REG_FILE[MUX1(op, rt, rd)] <= REG_FILE[MUX1(op, rt, rd)];//なにもしない
+    else if(op == SW || op == BEQ || funct == JR)begin
+        REG_FILE[MUX1(op, rt, rd)] <= REG_FILE[MUX1(op, rt, rd)];//なにもしない処理 たとえば、JR命令後にadd命令があった場合、add命令のrdata1はJR命令のresultを読んでしまうので、JR命令ではレジスタファイルに書き込む処理はつけないようにしたい
     end 
     else if(op == J)begin
         REG_FILE[MUX1(op, rt, rd)] <= 0;//JUMP命令で、ゼロレジスタを読み書きしてしまうため、ゼロにもどす
@@ -80,6 +80,9 @@ always @(posedge CLK or posedge RST) begin
     end
 end
 
+// always @(negedge CLK) begin
+//     REG_FILE[MUX1(op, rt, rd)] <= Wdata;
+// end
 
 // SE/UE 
 function [31:0] SE_UE;

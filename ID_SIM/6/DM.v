@@ -16,18 +16,23 @@ assign op = Ins[31:26];
 
 integer i;
 initial begin
-    for (i = 0; i < 32; i = i + 1) begin
+    for (i = 0; i < 1024; i = i + 1) begin
         DMEM[i] <= 32'd777;
     end
 end
+
+wire [31:0] Rdata;
+assign Rdata = DMEM[Result];
 
 function [31:0] MUX3;
     input [31:0] Result;
     input [31:0] nextPC;
     input [5:0] op;
+    input [31:0] Rdata;
     
     if (op == LW) begin
-        MUX3 = DMEM[Result];//メモリからのデータを取得
+        //MUX3 = DMEM[Result];//メモリからのデータを取得
+        MUX3 = Rdata;
     end
     else if(op == JAL || op == JALR)begin//関数呼び出し命令における、戻りアドレス
         MUX3 = nextPC;
@@ -56,7 +61,7 @@ always @(negedge CLK) begin
     // end
 end
 
-assign Wdata = MUX3(Result, nextPC, op);
+assign Wdata = MUX3(Result, nextPC, op, Rdata);
 assign SW_TEST = DMEM[Result];
 
 
