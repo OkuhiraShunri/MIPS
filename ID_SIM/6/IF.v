@@ -11,8 +11,8 @@ module IF (
 reg [31:0] IMEM [0:IMEM_SIZE-1];//命令メモリ
 
 initial begin
-  //$readmemh("Recursion.txt",IMEM);//命令が入ったテキストデータをレジスタ配列IMEMに読み込む
-  $readmemh("addi_test.txt",IMEM);
+  $readmemh("Recursion.txt",IMEM);//命令が入ったテキストデータをレジスタ配列IMEMに読み込む
+  //$readmemh("addi_test.txt",IMEM);
   //$readmemh("Function.txt",IMEM);
   // IMEM[0] <= 32'b000000_01010_01011_01001_00000_100000;//add t1 t2 t3
   // IMEM[1] <= 32'b001000_10010_10001_0000000100000000;//addi s1 s2 256

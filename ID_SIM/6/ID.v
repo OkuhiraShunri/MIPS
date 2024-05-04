@@ -11,17 +11,19 @@ integer i;
 initial begin
     //REG_FILE[0] = {32{1'b0}};
     REG_FILE[0] = 32'b0;
+    //REG_FILE[2] = 32'd33;//v0
+    //REG_FILE[4] = 32'd80;//a0
     REG_FILE[10] = 32'd5;//t2
     REG_FILE[11] = -9;//t3
     //REG_FILE[9] = 32'd45;//t1
-    REG_FILE[16] = 32'd3;//s0
+    REG_FILE[16] = 32'd10;//s0
     REG_FILE[17] = 32'd2012;//s1
     REG_FILE[18] = 32'd12;//s2
     REG_FILE[19] = 32'd5;
     REG_FILE[20] = 32'd5;
     REG_FILE[23] = 32'd23;//s7
-    REG_FILE[29] = 32'd50;//sp
-    REG_FILE[31] = 32'd12;
+    REG_FILE[29] = 32'd500;//sp
+    REG_FILE[31] = 32'd12;//ra
     // for (i = 1; i < 32; i = i + 1) begin
     //     REG_FILE[i] <= 0;
     // end
@@ -80,9 +82,11 @@ always @(posedge CLK or posedge RST) begin
     end
 end
 
-// always @(negedge CLK) begin
-//     REG_FILE[MUX1(op, rt, rd)] <= Wdata;
-// end
+always @(negedge CLK) begin//spの書き込みのときかつ、定数が正のときにクロック立下がりで再度無理やり演算結果を書き込む
+    if(rt == 32'd29 && Ed32[31] != 1)begin
+        REG_FILE[MUX1(op, rt, rd)] <= Wdata;
+    end
+end
 
 // SE/UE 
 function [31:0] SE_UE;
