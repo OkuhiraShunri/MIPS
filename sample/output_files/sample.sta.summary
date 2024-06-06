@@ -1,0 +1,77 @@
+------------------------------------------------------------
+Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1200mV 85C Model Setup 'SingleCycleMIPS:SMIPS0|btn_in:b0|BOUTN[1]'
+Slack : -21.399
+TNS   : -93788.164
+
+Type  : Slow 1200mV 85C Model Setup 'MAX10_CLK1_50'
+Slack : -2.691
+TNS   : -115.804
+
+Type  : Slow 1200mV 85C Model Hold 'MAX10_CLK1_50'
+Slack : 0.324
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'SingleCycleMIPS:SMIPS0|btn_in:b0|BOUTN[1]'
+Slack : 0.324
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'MAX10_CLK1_50'
+Slack : -3.000
+TNS   : -87.318
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'SingleCycleMIPS:SMIPS0|btn_in:b0|BOUTN[1]'
+Slack : -1.222
+TNS   : -5943.808
+
+Type  : Slow 1200mV 0C Model Setup 'SingleCycleMIPS:SMIPS0|btn_in:b0|BOUTN[1]'
+Slack : -19.387
+TNS   : -84676.276
+
+Type  : Slow 1200mV 0C Model Setup 'MAX10_CLK1_50'
+Slack : -2.352
+TNS   : -99.072
+
+Type  : Slow 1200mV 0C Model Hold 'MAX10_CLK1_50'
+Slack : 0.295
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'SingleCycleMIPS:SMIPS0|btn_in:b0|BOUTN[1]'
+Slack : 0.295
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'MAX10_CLK1_50'
+Slack : -3.000
+TNS   : -87.318
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'SingleCycleMIPS:SMIPS0|btn_in:b0|BOUTN[1]'
+Slack : -1.222
+TNS   : -5943.808
+
+Type  : Fast 1200mV 0C Model Setup 'SingleCycleMIPS:SMIPS0|btn_in:b0|BOUTN[1]'
+Slack : -10.181
+TNS   : -44311.504
+
+Type  : Fast 1200mV 0C Model Setup 'MAX10_CLK1_50'
+Slack : -0.798
+TNS   : -26.378
+
+Type  : Fast 1200mV 0C Model Hold 'MAX10_CLK1_50'
+Slack : 0.148
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'SingleCycleMIPS:SMIPS0|btn_in:b0|BOUTN[1]'
+Slack : 0.149
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'MAX10_CLK1_50'
+Slack : -3.000
+TNS   : -83.945
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'SingleCycleMIPS:SMIPS0|btn_in:b0|BOUTN[1]'
+Slack : -1.000
+TNS   : -4864.000
+
+------------------------------------------------------------

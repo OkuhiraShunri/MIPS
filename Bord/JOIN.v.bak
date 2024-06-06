@@ -1,0 +1,47 @@
+module JOIN (
+    input  CLK, RST,
+    input [9:0] KEY,
+    //input [31:0] Ins,nextPC,
+    //output [31:0] TEST,
+    //output [31:0] SW_TEST,
+    output [7:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5
+);
+
+
+wire[31:0] result, rdata1, rdata2, ed32, wdata, nextpc, ins, newpc, pc;
+wire[9:0] bout;
+BTN_IN b0(.CLK(CLK), .nBIN(KEY), .BOUT(bout));//boutがチャタリング除去後の信号
+ID i0(.CLK(bout[0]), .RST(RST), .Ins(ins), .Wdata(wdata), .Rdata1(rdata1), .Rdata2(rdata2), .Ed32(ed32));
+EX ex0(.CLK(bout[0]), .RST(RST), .Ins(ins), .Rdata1(rdata1), .Rdata2(rdata2), .Ed32(ed32), .nextPC(nextpc), .Result(result), .newPC(newpc));//nextPCをインプット
+DM d0(.CLK(bout[0]), .RST(RST), .Ins(ins), .Result(result), .Rdata2(rdata2), .nextPC(nextpc), .Wdata(wdata));//nextPCをインプット
+IF f0(.CLK(bout[0]), .RST(RST), .newPC(newpc), .Ins(ins), .nextPC(nextpc), .PC(pc));//nextPCをアウトプット、newPCをインプット
+
+// seg7dec_3 seg1(.DIN(pc[3:0]), .nHEX(HEX0));
+// seg7dec_3 seg2(.DIN(pc[7:4]), .nHEX(HEX1));
+seg7dec_3 seg0(.DIN(DIN0), .nHEX(HEX0));
+seg7dec_3 seg1(.DIN(DIN1), .nHEX(HEX1));
+seg7dec_3 seg2(.DIN(DIN2), .nHEX(HEX2));
+seg7dec_3 seg3(.DIN(DIN3), .nHEX(HEX3));
+seg7dec_3 seg4(.DIN(DIN4), .nHEX(HEX4));
+seg7dec_3 seg5(.DIN(DIN5), .nHEX(HEX5));
+
+
+assign {DIN5, DIN4, DIN3, DIN2, DIN1, DIN0} = MUX(PC, nextPC, Ins, Rdata1, Rdata2, Ed32, Result, newPC, Wdata);//MUXの引数のうち、どれかが選び出される
+
+function [23:0] MUX (input [31:0] pc, nextpc, ins, rdata1, rdata2, ed32, result, newpc, wdata);
+    case (bout[9:1])
+        9'b0:      MUX = pc[23:0];
+        9'b1 << 0: MUX = nextpc[23:0];
+        9'b1 << 1: MUX = ins[23:0];
+        9'b1 << 2: MUX = rdata1[23:0];
+        9'b1 << 3: MUX = rdata2[23:0];
+        9'b1 << 4: MUX = ed32[23:0];
+        9'b1 << 5: MUX = result[23:0];
+        9'b1 << 6: MUX = newpc[23:0];
+        9'b1 << 7: MUX = wdata[23:0];
+        default:   MUX = 24'hffffff;
+    endcase
+endfunction
+
+
+endmodule
